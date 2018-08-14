@@ -1,23 +1,21 @@
 function addLink(id){
-	print(id);
-	var file = new SCFile('device');
-	file['type'] = 'pc';
+	var soft = new SCFile('device');
+	var pc new SCFile('device');
 	var sccm = new SCFile('sccmHardware');
-	var query = sccm.doSelect('ResourceID='+id+'');
-		print(system.functions.contents(sccm));
-		file['serial.no.'] = sccm['SerialNumber0'];
-		file['vendor'] = sccm['Manufacturer00'];
-		file['model'] = sccm['Model00'];
-		file['ci.name'] = sccm['Name00'];
-		file['users'].push(sccm['UserName00']);
-		file['processors.model'] = sccm['ProcName00'];
-		file['processors.cores'] = sccm['NumberOfCores00'];
-		file['processors.proc'] = sccm['NumberOfLogicalProcessors00'];
-		file['ip.address'] = sccm['IPAddress00'];
-		file['mac.address'] = sccm['MACAddress00'];
-		file['hdd.capacity'] = sccm['Size00'];
-		print(system.functions.contents(sccm));
-		print(system.functions.contents(file));
+	var jsoft = new SCFile('joinsoft');
+	var cir = new SCFile('cirelationship');
+	var query = sccm.doSelect('SerialNumber0='+id+'');
+	var pcquery = pc.doSelect('serial.no.="'+id+'"');
+		soft['ci.name'] = sccm['ProductName00'];
+		soft['type'] = 'soft';
+		jsoft['ver.no'] = sccm['ProductVersion00'];
+		cir['logical.name'] = pc['logical.name'];
+		cir['related.cis'] = _ins(cir['related.cis'],0,1,soft('logical.name'));
+		cir['relationship.type'] = 'Logical';
+		cir['relationship.subtype'] ='Includes';
+		var rc = soft.doInsert();
+		var rrc = jsoft.doInsert();
+		var rcc = cir.doInsert();
 	return file;
 }
 // старый код из harware add
