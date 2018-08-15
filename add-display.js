@@ -26,7 +26,7 @@ function softwareAdd(){
 	for (var i =0; i<data.length; i++) {
 		var sRowClass = i%2==0 ? "evenRow" : "oddRow";
 			sHtmlReturn += "<tr>";
-			 sHtmlReturn += "<td class=\""+sRowClass+"\" > <a href=\"scactivelink://sccmSoftware:"+data[i]['ResourceID']+"\">Добавить</a></td>";
+			 sHtmlReturn += "<td class=\""+sRowClass+"\" > <a href=\"scactivelink://sccmSoftware:"+data[i]['SerialNumber0']+"\">Добавить</a></td>";
 			if(data[i]['name']!=null){
 				sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['name']+"</td>";		//ResourceID
 			}
