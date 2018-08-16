@@ -5,16 +5,32 @@ function softwareUpd(){
 	var data = [];
 	var sQuery,dQuery,joinQuery;
 	var cnt = 0;
+	var pg;
 	var sCR = "\n";
 	var sHtmlReturn = getCSS();
 	sQuery = sccm.doSelect('wasUpdated~="true"');
-	do{
-		dQuery = device.doSelect('serial.no.="'+sccm['SerialNumber0']+'"');
-		if(sccm['status']!='add'&& dQuery == RC_SUCCESS){
-			data[cnt] = {name:sccm['ProductName00'],ver:sccm['ProductVersion00'],status:sccm['status'], pc:device['logical.name']};
-			cnt++;
+
+	if(vars['$page'] == null){
+		do{
+			dQuery = device.doSelect('ci.name="'+sccm['ProductName00']+'"');
+			if(sccm['status']!='add'&& dQuery == RC_SUCCESS){
+				data[cnt] = {name:sccm['ProductName00'],ver:sccm['ProductVersion00'],status:sccm['status'], pc:device['logical.name']};
+				cnt++;
+			}
+		}while(sccm.getNext() == RC_SUCCESS && device.getNext() == RC_SUCCESS && cnt < 50);
+		vars['$page'] = cnt;
+	}
+	else{
+		for(var i = vars['$page']; i < vars['$page'] + 50; i++){
+			dQuery = device.doSelect('ci.name="'+sccm['ProductName00']+'"');
+			if(sccm['status']!='add'&& dQuery == RC_SUCCESS){
+				data[i] = {name:sccm['ProductName00'],ver:sccm['ProductVersion00'],status:sccm['status'], pc:device['logical.name']};
+				pg = i;
+			}
 		}
-	}while(sccm.getNext() == RC_SUCCESS && device.getNext() == RC_SUCCESS /*&& joinpc.getNext == RC_SUCCESS*/);
+		vars['$page'] = pg;
+	}
+
 	sHtmlReturn += "<table class=\"main\">" + sCR;
 	// Table header
 	sHtmlReturn += "<tr><th><div tabindex=\"0\"> Test </div></th>"
