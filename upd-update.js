@@ -1,10 +1,4 @@
 function updSoft(id){	//serial
-	var _lng = system.functions.lng;
-	var _ins = system.functions.insert;
-	var _op = system.functions.operator;
-	var _date = system.functions.tod;
-	var _val = system.functions.val;
-	var _tod = system.functions.tod;
 	var sccm = new SCFile('sccmSoftware');
 	var soft = new SCFile('device');
 	var jsoft = new SCFile('joinsoft');

@@ -1,21 +1,10 @@
-function addLink(id){
-	var soft = new SCFile('device');
-	var pc new SCFile('device');
-	var sccm = new SCFile('sccmHardware');
-	var jsoft = new SCFile('joinsoft');
-	var cir = new SCFile('cirelationship');
-	var query = sccm.doSelect('SerialNumber0='+id+'');
-	var pcquery = pc.doSelect('serial.no.="'+id+'"');
-		soft['ci.name'] = sccm['ProductName00'];
-		soft['type'] = 'soft';
-		jsoft['ver.no'] = sccm['ProductVersion00'];
-		cir['logical.name'] = pc['logical.name'];
-		cir['related.cis'] = _ins(cir['related.cis'],0,1,soft('logical.name'));
-		cir['relationship.type'] = 'Logical';
-		cir['relationship.subtype'] ='Includes';
-		var rc = soft.doInsert();
-		var rrc = jsoft.doInsert();
-		var rcc = cir.doInsert();
+function addSoft(id){
+	var file = new SCFile('device');
+	var sccm = new SCFile('sccmSoftware');
+	var sQ = sccm.doSelect('key="'+id+'"');
+	file['ci.name'] = sccm['ProductName00'];
+	file['type'] = 'soft';
+	print('addsoft '+_conts(file));
 	return file;
 }
-// старый код из harware add
+// TODO:  прикрутить механизм создания новой записи к sccmHardware 
