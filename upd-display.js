@@ -19,7 +19,6 @@ function softwareUpd(){
 				var rcrcr = pc.doSelect('serial.no.="'+sccm['SerialNumber0']+'"');
 				var rel = relation.doSelect('logical.name="'+pc['logical.name']+'" and related.cis="'+sccm['ProductName00']+'"');
 				if(joinQuery == RC_SUCCESS && rcrcr == RC_SUCCESS && rel != RC_SUCCESS){
-					//print('join ok')
 					data[cnt] = {name:sccm['ProductName00'], ver:sccm['ProductVersion00'],key:sccm['key'], status:sccm['status']};
 					cnt++;
 					vars['$lastID'] = sccm['key'];
@@ -27,10 +26,9 @@ function softwareUpd(){
 			}
 			var rc = sccm.getNext();
 			if (rc != RC_SUCCESS){
-				 cnt = 2;
+				 cnt = 10;
 		 	}
-			print(data[cnt]);
-		}while (cnt<2);
+		}while (cnt<10);
 		print(' prev '+vars['$prevID']);
 	sHtmlReturn += "<table class=\"main\">" + sCR;
 	// Table header
@@ -38,6 +36,7 @@ function softwareUpd(){
 	sHtmlReturn += "<th><div tabindex=\"0\"> Наименование ПО </div></th>"
 	sHtmlReturn += "<th><div tabindex=\"0\"> Версия ПО </div></th>"
 	sHtmlReturn += "<th><div tabindex=\"0\"> Статус </div></th>";
+	sHtmlReturn += "<th><div tabindex=\"0\"> key </div></th>";
 	for (var i =0; i<data.length; i++) {
 		var sRowClass = i%2==0 ? "evenRow" : "oddRow";
 			sHtmlReturn += "<tr>";
@@ -60,9 +59,10 @@ function softwareUpd(){
 			else{
 				sHtmlReturn += "<td class=\""+sRowClass+"\" > </td>";
 			}
+			sHtmlReturn += "<td class=\""+sRowClass+"\" >"+data[i]['key']+"</td>"
 			sHtmlReturn += "<tr>";
 	}
 	sHtmlReturn += "</table>" + sCR;
 	return sHtmlReturn;
 }
-// TODO: допилить пагинацию для обновления. при переборе сохранять максимальное значение ключа
+// TODO: обе кнокпи листают вперед. че за хуйня исправить
