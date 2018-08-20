@@ -14,14 +14,17 @@ function updSoft(id){
 		dQuery = pc.doSelect('serial.no.="'+sccm['SerialNumber0']+'"');
 		softQuery = soft.doSelect('ci.name="'+sccm['ProductName00']+'"')
 		joinQuery = jsoft.doSelect('logical.name="'+soft['logical.name']+'"');
-		rel['logical.name'] = pc['logical.name'];
-		rel['related.cis'] = _ins(rel['related.cis'],0,1,soft['logical.name']);
-		rel['relationship.type'] = 'Logical';
-		rel['relationship.subtype'] = 'Includes';
-		var rc = rel.doInsert();
-		if(rc== RC_SUCCESS){
-			print('relation ok');
-			sccm['wasUpdated'] = true;
-			var rcc = sccm.doInsert();
+		var rcc = rel.doSelect('logical.name="'+pc['logical.name']+'" and related.cis="'+soft['logical.name']+'"');
+		if(rcc != RC_SUCCESS){
+			rel['logical.name'] = pc['logical.name'];
+			rel['related.cis'] = _ins(rel['related.cis'],0,1,soft['logical.name']);
+			rel['relationship.type'] = 'Logical';
+			rel['relationship.subtype'] = 'Includes';
+			var rc = rel.doInsert();
+			if(rc== RC_SUCCESS){
+				print('relation ok');
+				sccm['wasUpdated'] = true;
+				var rcc = sccm.doInsert();
+			}
 		}
 }

@@ -9,25 +9,29 @@ function softwareUpd(){
 	var cnt = 0;
 	var sCR = "\n";
 	var sHtmlReturn = getCSS();
-	sQuery = sccm.doSelect('(wasUpdated=NULL or wasUpdated=false) and status="Update" and key>"'+vars['$page']+'"');
+	sQuery = sccm.doSelect('(wasUpdated=NULL or wasUpdated=false) and status="Update" and key>"'+vars['$prevID'][_lng(vars['$prevID'])-1]+'" and key >"'+vars['$lastID']+'"');
+		vars['$prevID'] = _ins(vars['$prevID'],0,1,sccm['key']);
 		do{
 			dQuery = device.doSelect('ci.name="'+sccm['ProductName00']+'"');
 			if(dQuery == RC_SUCCESS){
-				print('device ok')
+				//print('device ok')
 				joinQuery = joinsoft.doSelect('logical.name="'+device['logical.name']+'" and ver.no="'+sccm['ProductVersion00']+'"');
 				var rcrcr = pc.doSelect('serial.no.="'+sccm['SerialNumber0']+'"');
 				var rel = relation.doSelect('logical.name="'+pc['logical.name']+'" and related.cis="'+sccm['ProductName00']+'"');
 				if(joinQuery == RC_SUCCESS && rcrcr == RC_SUCCESS && rel != RC_SUCCESS){
-					print('join ok')
+					//print('join ok')
 					data[cnt] = {name:sccm['ProductName00'], ver:sccm['ProductVersion00'],key:sccm['key'], status:sccm['status']};
 					cnt++;
+					vars['$lastID'] = sccm['key'];
 				}
 			}
 			var rc = sccm.getNext();
 			if (rc != RC_SUCCESS){
 				 cnt = 2;
 		 	}
-		}while (cnt<2)
+			print(data[cnt]);
+		}while (cnt<2);
+		print(' prev '+vars['$prevID']);
 	sHtmlReturn += "<table class=\"main\">" + sCR;
 	// Table header
 	sHtmlReturn += "<tr><th><div tabindex=\"0\"> Test </div></th>"

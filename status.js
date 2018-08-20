@@ -1,16 +1,11 @@
 var sccm = new SCFile('sccmSoftware');
 var device = new SCFile('device');
-var deviceQ = device.doSelect('true');
-var query = sccm.doSelect('ProductName00<>"'+device['ci.name']+'"');
+var deviceQ = device.doSelect('type="soft"');
+var query = sccm.doSelect('ProductName00="'+device['ci.name']+'"');
 	if(query == RC_SUCCESS){
 		do{
-			sccm['status'] = 'add';
+			sccm['status'] = 'Update';
+			print('ok');
 			var rc = sccm.doUpdate();
 		}
 	}
-	else{
-			do{
-				sccm['status'] = 'upd';
-				var rc = sccm.doUpdate();
-			}
-		}
