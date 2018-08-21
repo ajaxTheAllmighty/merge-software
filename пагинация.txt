@@ -14,3 +14,7 @@
 	20/08/18 12:51:06
 
 	last 196548 prev [C++ object Datum] - {89120, 89711}
+
+
+	если щелк назад то выборка > vars['$prevID'][_lng(vars['$prevID'])-1] но < vars['$prevID'][_lng(vars['$prevID'])]
+	если щелк вперед то выборка >lastid

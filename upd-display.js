@@ -6,11 +6,30 @@ function softwareUpd(){
 	var relation = new SCFile('cirelationship');
 	var data = [];
 	var sQuery,dQuery,joinQuery;
+	var query;
+	var count;
+	var f = new SCFile('sccmSoftware');
 	var cnt = 0;
 	var sCR = "\n";
 	var sHtmlReturn = getCSS();
-	sQuery = sccm.doSelect('(wasUpdated=NULL or wasUpdated=false) and status="Update" and key>"'+vars['$prevID'][_lng(vars['$prevID'])-1]+'" and key >"'+vars['$lastID']+'"');
-		vars['$prevID'] = _ins(vars['$prevID'],0,1,sccm['key']);
+	var count = new SCFile('sccmSoftware').doCount('true');
+	if(vars['$direction'] != 'back'){
+		query = '(wasUpdated=NULL or wasUpdated=false) and status="Update" and key >"'+vars['$lastID']+'"';
+	}
+	else{
+		if(vars['$page']>0){
+			query = '(wasUpdated=NULL or wasUpdated=false) and status="Update" and key >"'+vars['$prevID'][_lng(vars['$prevID'])-2]+'" and key<"'+vars['$prevID'][_lng(vars['$prevID'])-1]+'"';
+		}
+		else {
+			query = '(wasUpdated=NULL or wasUpdated=false) and status="Update" and key >"'+vars['$prevID'][_lng(vars['$prevID'])-2]+'" and key<"'+count+'"';
+		}
+	}
+	sQuery = sccm.doSelect(query);
+		if (vars['$direction'] != 'back') {
+			vars['$prevID'] = _ins(vars['$prevID'],0,1,sccm['key']);
+		} else {
+			vars['$prevID'].pop();
+		}
 		do{
 			dQuery = device.doSelect('ci.name="'+sccm['ProductName00']+'"');
 			if(dQuery == RC_SUCCESS){
@@ -26,10 +45,11 @@ function softwareUpd(){
 			}
 			var rc = sccm.getNext();
 			if (rc != RC_SUCCESS){
-				 cnt = 10;
+				cnt = 10;
+				vars['$endNext'] = false;
 		 	}
 		}while (cnt<10);
-		print(' prev '+vars['$prevID']);
+
 	sHtmlReturn += "<table class=\"main\">" + sCR;
 	// Table header
 	sHtmlReturn += "<tr><th><div tabindex=\"0\"> Test </div></th>"
@@ -65,4 +85,3 @@ function softwareUpd(){
 	sHtmlReturn += "</table>" + sCR;
 	return sHtmlReturn;
 }
-// TODO: обе кнокпи листают вперед. че за хуйня исправить
