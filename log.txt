@@ -31,3 +31,7 @@ fd
 	INFIntegrationBuffer.upd : обновление пк, выбор
 	INFIntegrationBuffer.showResults : обновление, результаты
 	INFMergeUpdSoft : обновление по
+dbdict
+	INFIntegrationBuffer
+	sccmHardware
+	sccmSoftware
