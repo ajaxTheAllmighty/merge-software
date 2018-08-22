@@ -1,0 +1,33 @@
+sl
+	sccmtocmdbutils
+wizards
+	INF.merge-add : добавление пк
+	INF.merge-upd : обновление пк
+		INF.merge-upd-selection : выбор полей для обновления
+		INF.merge-upd-show-results : результаты обновления
+	INF.merge-add-soft : добавление по
+	INF.merge-upd-soft : обновление по
+ds
+	INF.merge.add.wizard.display : добавление пк
+	INF.merge.upd.wizard.display : обновление пк
+	INF.merge.soft.add.wizard.display : добавление по
+	INF.merge.soft.upd.wizard.display : обновление по
+do
+	INF.merge.upd.wizard.display_redraw : игнорить все
+	INF.merge.upd.wizard.display_redraw_2 : обновить все
+	INF.merge.soft.add.wizard.display_redraw_1 : пагинация, вперед
+	INF.merge.soft.add.wizard.display_redraw_2 : пагинация, назад
+	INF.merge.soft.upd.wizard.display_redraw_1 : пагинация, вперед
+	INF.merge.soft.upd.wizard.display_redraw_2 : пагинация, назад
+de
+	INF.merge.upd.wizard.display_Custom : сслыка обновление пк
+	INF.merge.soft.upd.wizard.display_Custom : ссылка обновление по
+	INF.merge.add.wizard.display_Custom : ссылка добавление пк
+	INF.merge.soft.upd.wizard.display_Custom : ссылка добавление по
+fd
+	INFMergeAdd : добавление пк
+	INFMergeAddSoft : добавление по
+	INFIntegrationBuffer.All : обновление пк
+	INFIntegrationBuffer.upd : обновление пк, выбор
+	INFIntegrationBuffer.showResults : обновление, результаты
+	INFMergeUpdSoft : обновление по
